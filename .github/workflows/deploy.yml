@@ -24,13 +24,22 @@ jobs:
     - name: Build the project
       run: npm run build
 
-    - name: Deploy
-      uses: easingthemes/ssh-deploy@v2.1.5
+    - name: Start SSH Agent and Add Key
+      uses: webfactory/ssh-agent@v0.5.3
       with:
-        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-        ARGS: "-rltgoDzvO --delete"
-        SOURCE: "dist/"
-        REMOTE_HOST: "jorendhaen.be"
-        REMOTE_USER: "jorendha"
-        TARGET: "/home/jorendha/public_html/portfolio"
+        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+        ssh-passphrase: ${{ secrets.SSH_PASSPHRASE }}
+
+    - name: Add SSH known hosts
+      run: ssh-keyscan -H jorendhaen.be >> /home/runner/.ssh/known_hosts
+      shell: bash
+
+    - name: Test SSH connection
+      run: ssh -o StrictHostKeyChecking=no jorendha@jorendhaen.be 'echo "SSH connection successful"'
+      shell: bash
+
+    - name: Deploy to server
+      run: |
+        rsync -rltgoDzvO --delete -e "ssh -o StrictHostKeyChecking=no" dist/ jorendha@jorendhaen.be:/home/jorendha/public_html/portfolio
+      shell: bash
 
