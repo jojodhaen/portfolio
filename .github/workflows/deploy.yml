@@ -24,11 +24,6 @@ jobs:
     - name: Build the project
       run: npm run build
 
-    - name: Setup SSH
-      uses: webfactory/ssh-agent@v0.5.3
-      with:
-        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-
     - name: Deploy
       uses: easingthemes/ssh-deploy@v2.1.5
       with:
