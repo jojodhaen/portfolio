@@ -24,6 +24,9 @@ jobs:
     - name: Build the project
       run: npm run build
 
+    - name: Create .ssh directory
+      run: mkdir -p /home/runner/.ssh
+
     - name: Add SSH key
       run: |
         echo "${{ secrets.SSH_PRIVATE_KEY }}" > /home/runner/.ssh/deploy_key
