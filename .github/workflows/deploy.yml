@@ -24,11 +24,13 @@ jobs:
     - name: Build the project
       run: npm run build
 
-    - name: Start SSH Agent and Add Key
-      uses: webfactory/ssh-agent@v0.5.3
-      with:
-        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-        ssh-passphrase: ${{ secrets.SSH_PASSPHRASE }}
+    - name: Add SSH key
+      run: |
+        echo "${{ secrets.SSH_PRIVATE_KEY }}" > /home/runner/.ssh/deploy_key
+        chmod 600 /home/runner/.ssh/deploy_key
+        eval "$(ssh-agent -s)"
+        echo "${{ secrets.SSH_PASSPHRASE }}" | ssh-add /home/runner/.ssh/deploy_key
+      shell: bash
 
     - name: Add SSH known hosts
       run: ssh-keyscan -H jorendhaen.be >> /home/runner/.ssh/known_hosts
