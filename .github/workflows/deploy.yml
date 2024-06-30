@@ -33,14 +33,13 @@ jobs:
         ssh-keyscan -p 22 jorendhaen.be >> ~/.ssh/known_hosts
         sudo apt-get install sshpass
 
+    - name: Upload dist folder to server
+      run: |
+        sshpass -p '${{ secrets.PASSPHRASE }}' rsync -avz -e "ssh -o StrictHostKeyChecking=no" dist/ jorendha@jorendhaen.be:/home/jorendha/public_html/portfolio
+
     - name: Deploy to server
       run: |
         sshpass -p '${{ secrets.PASSPHRASE }}' ssh -v -o StrictHostKeyChecking=no jorendha@jorendhaen.be <<'ENDSSH'
-        cd /home/jorendha/public_html/portfolio
-        git pull
-        docker stop portfolio
-        docker system prune -f
-        make deploy_headless
         ENDSSH  
     
 
