@@ -27,7 +27,7 @@ jobs:
     - name: executing remote ssh commands using password
       uses: appleboy/ssh-action@v1.0.3
       env:
-        DIST_FOLDER: dist/
+        DIST_FOLDER: dist
       with:
         script_stop: true
         host: jorendhaen.be
