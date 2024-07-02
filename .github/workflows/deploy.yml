@@ -33,13 +33,19 @@ jobs:
         ssh-keyscan -p 22 jorendhaen.be >> ~/.ssh/known_hosts
         sudo apt-get install sshpass
 
+#    - name: Star ssh-agent
+#      uses: webfactory/ssh-agent@v0.5.3
+#      with:
+#        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+#        ssh-passphrase: ${{ secrets.SSH_PASSPHRASE }}
+
     - name: Upload dist folder to server
       run: |
-        sshpass -p '${{ secrets.PASSPHRASE }}' rsync -avz -e "ssh -o StrictHostKeyChecking=no" dist/ jorendha@jorendhaen.be:/home/jorendha/public_html/portfolio
+        sshpass -p '${{ secrets.SSH_PASSPHRASE }}' rsync -avz -e "ssh -o StrictHostKeyChecking=no" dist/ jorendha@jorendhaen.be:/home/jorendha/public_html/portfolio
 
     - name: Deploy to server
       run: |
-        sshpass -p '${{ secrets.PASSPHRASE }}' ssh -v -o StrictHostKeyChecking=no jorendha@jorendhaen.be <<'ENDSSH'
+        sshpass -p '${{ secrets.SSH_PASSPHRASE }}' ssh -v -o StrictHostKeyChecking=no jorendha@jorendhaen.be <<'ENDSSH'
         ENDSSH  
     
 
