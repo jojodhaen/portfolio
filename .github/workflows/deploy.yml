@@ -24,26 +24,26 @@ jobs:
     - name: Build the project
       run: npm run build
 
-    - name: debug
-      run: |
-        ls -la
-
-    - name: executing remote ssh commands using password
-      uses: appleboy/ssh-action@v1.0.3
-      env:
-        DIST_FOLDER: dist/
-      with:
-        script_stop: true
-        host: jorendhaen.be
-        port: 22
-        username: jorendha
-        key: ${{ secrets.SSH_PRIVATE_KEY }}
-        passphrase: ${{ secrets.SSH_PASSPHRASE }}
-        envs: DIST_FOLDER
-        script: |
-          cd /home/jorendha/public_html/portfolio
-          rm -rf *
-          cp -r $DIST_FOLDER /home/jorendha/public_html/portfolio
+#    - name: debug
+#      run: |
+#        ls -la
+#
+#    - name: executing remote ssh commands using password
+#      uses: appleboy/ssh-action@v1.0.3
+#      env:
+#        DIST_FOLDER: dist/
+#      with:
+#        script_stop: true
+#        host: jorendhaen.be
+#        port: 22
+#        username: jorendha
+#        key: ${{ secrets.SSH_PRIVATE_KEY }}
+#        passphrase: ${{ secrets.SSH_PASSPHRASE }}
+#        envs: DIST_FOLDER
+#        script: |
+#          cd /home/jorendha/public_html/portfolio
+#          rm -rf *
+#          cp -r $DIST_FOLDER /home/jorendha/public_html/portfolio
 
     - name: copy file via ssh password
       uses: appleboy/scp-action@v0.1.7
