@@ -24,27 +24,6 @@ jobs:
     - name: Build the project
       run: npm run build
 
-#    - name: debug
-#      run: |
-#        ls -la
-#
-#    - name: executing remote ssh commands using password
-#      uses: appleboy/ssh-action@v1.0.3
-#      env:
-#        DIST_FOLDER: dist/
-#      with:
-#        script_stop: true
-#        host: jorendhaen.be
-#        port: 22
-#        username: jorendha
-#        key: ${{ secrets.SSH_PRIVATE_KEY }}
-#        passphrase: ${{ secrets.SSH_PASSPHRASE }}
-#        envs: DIST_FOLDER
-#        script: |
-#          cd /home/jorendha/public_html/portfolio
-#          rm -rf *
-#          cp -r $DIST_FOLDER /home/jorendha/public_html/portfolio
-
     - name: copy file via ssh password
       uses: appleboy/scp-action@v0.1.3
       with:
@@ -58,34 +37,5 @@ jobs:
         target: /home/jorendha/public_html/portfolio
         strip_components: 1
 
-#    - name: Set up SSH key
-#      run: |
-#        env
-#        mkdir -p ~/.ssh
-#        echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-#        chmod 600 ~/.ssh/id_rsa
-#        ssh-keyscan -p 22 jorendhaen.be >> ~/.ssh/known_hosts
-#        sudo apt-get install sshpass
-#
-#    - name: Upload dist folder to server
-#      env:
-#        SSHPASS: ${{ secrets.SSH_PASSPHRASE }}
-#      run: |
-#        sshpass -e rsync -avz -e "ssh -o StrictHostKeyChecking=no" dist/ jorendha@jorendhaen.be:/home/jorendha/public_html/portfolio
-#
-#
-#    - name: Upload dist folder to server
-#      run: |
-#        rsync -avz -e "ssh -o StrictHostKeyChecking=no" dist/ jorendha@jorendhaen.be:/home/jorendha/public_html/portfolio
-#
-#
-#    - name: Upload dist folder to server
-#      run: |
-#        sshpass -p '${{ secrets.SSH_PASSPHRASE }}' rsync -avz -e "ssh -o StrictHostKeyChecking=no" dist/ jorendha@jorendhaen.be:/home/jorendha/public_html/portfolio
-#
-#    - name: Deploy to server
-#      run: |
-#        sshpass -p '${{ secrets.SSH_PASSPHRASE }}' ssh -v -o StrictHostKeyChecking=no jorendha@jorendhaen.be <<'ENDSSH'
-#        ENDSSH
 
 
