@@ -31,7 +31,7 @@ jobs:
     - name: executing remote ssh commands using password
       uses: appleboy/ssh-action@v1.0.3
       env:
-        DIST_FOLDER: dist
+        DIST_FOLDER: dist/
       with:
         script_stop: true
         host: jorendhaen.be
@@ -43,7 +43,18 @@ jobs:
         script: |
           cd /home/jorendha/public_html/portfolio
           rm -rf *
-          cp -r $DIST_FOLDER/* /home/jorendha/public_html/portfolio
+          cp -r $DIST_FOLDER /home/jorendha/public_html/portfolio
+
+    - name: copy file via ssh password
+      uses: appleboy/scp-action@v0.1.7
+      with:
+        host: jorendhaen.be
+        username: jorendha
+        port: 22
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        passphrase: ${{ secrets.SSH_PASSPHRASE }}
+        source: "dist/*"
+        target: /home/jorendha/public_html/portfolio
 
 #    - name: Set up SSH key
 #      run: |
