@@ -3,11 +3,11 @@
 <template>
   <header>
     <div class="nav-container">
-      <span class="name">JOREN</span>
+      <router-link class="name" to="/">JOREN</router-link>
       <nav>
-        <router-link class="nav-link" to="/">PROJECTEN</router-link>
-        <router-link class="nav-link" to="/">OVER MIJ</router-link>
-        <router-link class="nav-link" to="/">CONTACT</router-link>
+        <router-link class="nav-link" to="/">Projecten</router-link>
+        <router-link class="nav-link" to="/">Over Mij</router-link>
+        <router-link class="nav-link" to="/">Contact</router-link>
       </nav>
     </div>
   </header>
@@ -31,18 +31,21 @@ header {
 
 .name {
   font-size: 2.5rem;
+  font-family: 'Space Mono', monospace;
+  font-weight: bold;
+  color: white;
+  text-decoration: none;
 }
 
 nav {
   display: flex;
-  gap: 1rem;
+  gap: 1.5rem;
 }
 
 .nav-link {
-  display: flex;
-  gap: 1rem;
   text-decoration: none;
   color: white;
   font-size: 1.25rem;
+  font-family: 'Space Mono', monospace;
 }
 </style>
