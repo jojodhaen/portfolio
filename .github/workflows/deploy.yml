@@ -36,7 +36,7 @@ jobs:
         script: |
           cd /home/jorendha/public_html/portfolio
           rm -rf *
-          cp -r /dist/* /home/jorendha/public_html/portfolio
+          cp -r dist/* /home/jorendha/public_html/portfolio
 
 #    - name: Set up SSH key
 #      run: |
