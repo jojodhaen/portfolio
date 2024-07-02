@@ -27,13 +27,16 @@ jobs:
     - name: executing remote ssh commands using password
       uses: appleboy/ssh-action@v1.0.3
       with:
+        script_stop: true
         host: jorendhaen.be
         port: 22
         username: jorendha
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         passphrase: ${{ secrets.SSH_PASSPHRASE }}
-        source: "dist/*"
-        target: "/home/jorendha/public_html/portfolio"
+        script: |
+          cd /home/jorendha/public_html/portfolio
+          rm -rf *
+          cp -r /home/jorendha/public_html/portfolio/dist/* /home/jorendha/public_html/portfolio
 
 #    - name: Set up SSH key
 #      run: |
