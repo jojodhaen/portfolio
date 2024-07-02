@@ -24,6 +24,10 @@ jobs:
     - name: Build the project
       run: npm run build
 
+    - name: debug
+      run: |
+        ls -la
+
     - name: executing remote ssh commands using password
       uses: appleboy/ssh-action@v1.0.3
       env:
