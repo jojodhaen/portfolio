@@ -32,7 +32,8 @@ jobs:
         username: jorendha
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         passphrase: ${{ secrets.SSH_PASSPHRASE }}
-        script: whoami
+        source: "dist/*"
+        target: "/home/jorendha/public_html/portfolio"
 
 #    - name: Set up SSH key
 #      run: |
