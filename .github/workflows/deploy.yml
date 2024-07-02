@@ -10,20 +10,30 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-#    - name: Checkout code
-#      uses: actions/checkout@v2
-#
-#    - name: Setup Node.js
-#      uses: actions/setup-node@v3
-#      with:
-#        node-version: '21.7.3'
-#
-#    - name: Install dependencies
-#      run: npm install
-#
-#    - name: Build the project
-#      run: npm run build
-#
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '21.7.3'
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Build the project
+      run: npm run build
+
+    - name: executing remote ssh commands using password
+      uses: appleboy/ssh-action@v1.0.3
+      with:
+        host: jorendhaen.be
+        port: 22
+        username: jorendha
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        passphrase: ${{ secrets.SSH_PASSPHRASE }}
+        script: whoami
+
 #    - name: Set up SSH key
 #      run: |
 #        env
@@ -32,16 +42,7 @@ jobs:
 #        chmod 600 ~/.ssh/id_rsa
 #        ssh-keyscan -p 22 jorendhaen.be >> ~/.ssh/known_hosts
 #        sudo apt-get install sshpass
-
-
-      - name: Debug - Compare passphrase
-        run: |
-          if [ "${{ secrets.SSH_PASSPHRASE }}" = "aht_NPT_wht_zmv5vte" ]; then
-            echo "Passphrase is set correctly."
-          else
-            echo "Passphrase is incorrect."
-          fi
-
+#
 #    - name: Upload dist folder to server
 #      env:
 #        SSHPASS: ${{ secrets.SSH_PASSPHRASE }}
