@@ -54,7 +54,6 @@ jobs:
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         passphrase: ${{ secrets.SSH_PASSPHRASE }}
         overwrite: true
-        rm: true
         source: ./dist/*
         target: /home/jorendha/public_html/portfolio
         strip_components: 1
