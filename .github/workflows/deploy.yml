@@ -34,9 +34,13 @@ jobs:
 #        sudo apt-get install sshpass
 
 
-    - name: Debug - Show passphrase
-      run: |
-        printf "Passphrase: %s\n" "${{ secrets.SSH_PASSPHRASE }}"
+      - name: Debug - Compare passphrase
+        run: |
+          if [ "${{ secrets.SSH_PASSPHRASE }}" = "aht_NPT_wht_zmv5vte" ]; then
+            echo "Passphrase is set correctly."
+          else
+            echo "Passphrase is incorrect."
+          fi
 
 #    - name: Upload dist folder to server
 #      env:
