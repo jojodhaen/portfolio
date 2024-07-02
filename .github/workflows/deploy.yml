@@ -39,10 +39,12 @@ jobs:
 #        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 #        ssh-passphrase: ${{ secrets.SSH_PASSPHRASE }}
 
-    - name: Start ssh-agent and add key
+    - name: Upload dist folder to server
+      env:
+        SSHPASS: ${{ secrets.SSH_PASSPHRASE }}
       run: |
-        eval "$(ssh-agent -s)"
-        echo "${{ secrets.SSH_PASSPHRASE }}" | ssh-add ~/.ssh/id_rsa - <<< "${{ secrets.SSH_PASSPHRASE }}"
+        sshpass -e rsync -avz -e "ssh -o StrictHostKeyChecking=no" dist/ jorendha@jorendhaen.be:/home/jorendha/public_html/portfolio
+    
 
     - name: Upload dist folder to server
       run: |
