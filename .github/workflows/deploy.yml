@@ -10,78 +10,53 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-
-    - name: Setup Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '21.7.3'
-
-    - name: Install dependencies
-      run: npm install
-
-    - name: Build the project
-      run: npm run build
-
-    - name: Set up SSH key
-      run: |
-        env
-        mkdir -p ~/.ssh
-        echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-        chmod 600 ~/.ssh/id_rsa
-        ssh-keyscan -p 22 jorendhaen.be >> ~/.ssh/known_hosts
-        sudo apt-get install sshpass
-
-#    - name: Star ssh-agent
-#      uses: webfactory/ssh-agent@v0.5.3
+#    - name: Checkout code
+#      uses: actions/checkout@v2
+#
+#    - name: Setup Node.js
+#      uses: actions/setup-node@v3
 #      with:
-#        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-#        ssh-passphrase: ${{ secrets.SSH_PASSPHRASE }}
-
-    - name: Upload dist folder to server
-      env:
-        SSHPASS: ${{ secrets.SSH_PASSPHRASE }}
-      run: |
-        sshpass -e rsync -avz -e "ssh -o StrictHostKeyChecking=no" dist/ jorendha@jorendhaen.be:/home/jorendha/public_html/portfolio
-    
-
-    - name: Upload dist folder to server
-      run: |
-        rsync -avz -e "ssh -o StrictHostKeyChecking=no" dist/ jorendha@jorendhaen.be:/home/jorendha/public_html/portfolio
-
-
-    - name: Upload dist folder to server
-      run: |
-        sshpass -p '${{ secrets.SSH_PASSPHRASE }}' rsync -avz -e "ssh -o StrictHostKeyChecking=no" dist/ jorendha@jorendhaen.be:/home/jorendha/public_html/portfolio
-
-    - name: Deploy to server
-      run: |
-        sshpass -p '${{ secrets.SSH_PASSPHRASE }}' ssh -v -o StrictHostKeyChecking=no jorendha@jorendhaen.be <<'ENDSSH'
-        ENDSSH  
-    
-
-#    - name: Create .ssh directory
-#      run: mkdir -p /home/runner/.ssh
+#        node-version: '21.7.3'
 #
-#    - name: Add SSH key
+#    - name: Install dependencies
+#      run: npm install
+#
+#    - name: Build the project
+#      run: npm run build
+#
+#    - name: Set up SSH key
 #      run: |
-#        echo "${{ secrets.SSH_PRIVATE_KEY }}" > /home/runner/.ssh/deploy_key
-#        chmod 600 /home/runner/.ssh/deploy_key
-#        eval "$(ssh-agent -s)"
-#        echo "${{ secrets.SSH_PASSPHRASE }}" | ssh-add /home/runner/.ssh/deploy_key
-#      shell: bash
+#        env
+#        mkdir -p ~/.ssh
+#        echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+#        chmod 600 ~/.ssh/id_rsa
+#        ssh-keyscan -p 22 jorendhaen.be >> ~/.ssh/known_hosts
+#        sudo apt-get install sshpass
+
+
+    - name: Debug - Show passphrase
+      run: |
+        printf "Passphrase: %s\n" "${{ secrets.SSH_PASSPHRASE }}"
+
+#    - name: Upload dist folder to server
+#      env:
+#        SSHPASS: ${{ secrets.SSH_PASSPHRASE }}
+#      run: |
+#        sshpass -e rsync -avz -e "ssh -o StrictHostKeyChecking=no" dist/ jorendha@jorendhaen.be:/home/jorendha/public_html/portfolio
 #
-#    - name: Add SSH known hosts
-#      run: ssh-keyscan -H jorendhaen.be >> /home/runner/.ssh/known_hosts
-#      shell: bash
 #
-#    - name: Test SSH connection
-#      run: ssh -o StrictHostKeyChecking=no jorendha@jorendhaen.be 'echo "SSH connection successful"'
-#      shell: bash
+#    - name: Upload dist folder to server
+#      run: |
+#        rsync -avz -e "ssh -o StrictHostKeyChecking=no" dist/ jorendha@jorendhaen.be:/home/jorendha/public_html/portfolio
+#
+#
+#    - name: Upload dist folder to server
+#      run: |
+#        sshpass -p '${{ secrets.SSH_PASSPHRASE }}' rsync -avz -e "ssh -o StrictHostKeyChecking=no" dist/ jorendha@jorendhaen.be:/home/jorendha/public_html/portfolio
 #
 #    - name: Deploy to server
 #      run: |
-#        rsync -rltgoDzvO --delete -e "ssh -o StrictHostKeyChecking=no" dist/ jorendha@jorendhaen.be:/home/jorendha/public_html/portfolio
-#      shell: bash
+#        sshpass -p '${{ secrets.SSH_PASSPHRASE }}' ssh -v -o StrictHostKeyChecking=no jorendha@jorendhaen.be <<'ENDSSH'
+#        ENDSSH
+
 
