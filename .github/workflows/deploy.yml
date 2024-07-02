@@ -26,6 +26,8 @@ jobs:
 
     - name: executing remote ssh commands using password
       uses: appleboy/ssh-action@v1.0.3
+      env:
+        DIST_FOLDER: dist/
       with:
         script_stop: true
         host: jorendhaen.be
@@ -33,11 +35,11 @@ jobs:
         username: jorendha
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         passphrase: ${{ secrets.SSH_PASSPHRASE }}
-        envs: DIST_FOLDER= dist/
+        envs: DIST_FOLDER
         script: |
           cd /home/jorendha/public_html/portfolio
           rm -rf *
-          cp -r DIST_FOLDER/* /home/jorendha/public_html/portfolio
+          cp -r $DIST_FOLDER/* /home/jorendha/public_html/portfolio
 
 #    - name: Set up SSH key
 #      run: |
